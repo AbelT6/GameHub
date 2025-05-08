@@ -17,7 +17,7 @@ import type { Platform } from "@/hooks/useGames";
 interface Props {
   platforms: Platform[];
 }
-
+// 
 const PlatformIconList = ({ platforms }: Props) => {
     const iconMap : { [key: string] } = { 
         pc : FaWindows , 
