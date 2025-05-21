@@ -1,26 +1,40 @@
 import useGenre from "@/hooks/useGenre";
 import getCroppedImageUrl from "@/services/image-url";
-import { HStack, Image, List, ListRoot, Spinner, Text } from "@chakra-ui/react";
+import { Button, HStack, Image, Spinner, Text } from "@chakra-ui/react";
 
-const GenreList = () => {
+interface Props { 
+  onSelectGenre: (genre: Genre) => void ; 
+}
+
+const GenreList = ({onSelectGenre} : Props ) => {
   const { data, isLoading, error } = useGenre();
+
   if (error) return null;
   if (isLoading) return <Spinner />;
+
   return (
-    <ListRoot>
+    <ul style={{ listStyleType: "none", padding: 0 }}>
       {data.map((genre) => (
-        <List.Item key={genre.id} paddingY="5px">
+        <li key={genre.id} style={{ padding: "5px 0" }}>
           <HStack>
             <Image
               boxSize="32px"
               borderRadius={8}
+              objectFit="cover"
               src={getCroppedImageUrl(genre.image_background)}
             />
-            <Text fontSize="lg">{genre.name}</Text>
+            <Button
+              variant="ghost"
+              fontSize="lg"
+              fontWeight="normal"
+              onClick={() => onSelectGenre(genre)}
+            >
+              {genre.name}
+            </Button>
           </HStack>
-        </List.Item>
+        </li>
       ))}
-    </ListRoot>
+    </ul>
   );
 };
 
